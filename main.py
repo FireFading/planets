@@ -94,10 +94,7 @@ class Planet:
         self.orbit.append((self.x, self.y))
 
 
-def main():
-    run = True
-    clock = pygame.time.Clock()
-    
+def planets_list():
     sun = Planet(0, 0, 30, 1.98892 * 10**30, YELLOW)
     sun.sun = True
     
@@ -114,6 +111,16 @@ def main():
     venus.y_vel = 35.02 * 1000
     
     planets = [sun, earth, mars, mercury, venus]
+    return planets
+
+
+def main():
+    run = True
+    clock = pygame.time.Clock()
+    
+    planets = planets_list()
+    is_scaled = 0
+    is_timesteped = 0
     
     while run:
         clock.tick(FPS)
@@ -126,6 +133,58 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    Planet.SCALE *= 1.01
+                    for planet in planets:
+                        planet.r *= 1.01
+                    is_scaled = 1
+                
+                if event.key == pygame.K_DOWN:
+                    Planet.SCALE *= 0.99
+                    for planet in planets:
+                        planet.r *= 0.99
+                    is_scaled = -1
+                
+                if event.key == pygame.K_LEFT:
+                    Planet.TIMESTEP *= 0.99
+                    is_timesteped = -1
+                
+                if event.key == pygame.K_RIGHT:
+                    Planet.TIMESTEP *= 1.01
+                    is_timesteped = 1
+            
+                if event.key == pygame.K_SPACE:
+                    planets = planets_list()
+                    window.fill(BLACK)
+                    is_scaled = 0
+                    is_timesteped = 0
+                    Planet.SCALE = 200 / Planet.AU
+                    Planet.TIMESTEP = 3600 * 24
+            
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    is_scaled = 0
+                
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    is_timesteped = 0
+            
+        if is_scaled != 0:
+            if is_scaled == 1:
+                Planet.SCALE *= 1.01
+                for planet in planets:
+                        planet.r *= 1.01
+            else:
+                for planet in planets:
+                        planet.r *= 0.99
+                Planet.SCALE *= 0.99
+            
+        if is_timesteped != 0:
+            if is_timesteped == 1:
+                Planet.TIMESTEP *= 1.01
+            else:
+                Planet.TIMESTEP *= 0.99
                 
         pygame.display.update()
                 
