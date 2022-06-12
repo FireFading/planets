@@ -121,6 +121,7 @@ def main():
     planets = planets_list()
     is_scaled = 0
     is_timesteped = 0
+    is_orbit = 1
     
     while run:
         clock.tick(FPS)
@@ -154,6 +155,9 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     Planet.TIMESTEP *= 1.01
                     is_timesteped = 1
+                    
+                if event.key == pygame.K_o:
+                    is_orbit *= -1
             
                 if event.key == pygame.K_SPACE:
                     planets = planets_list()
@@ -185,6 +189,10 @@ def main():
                 Planet.TIMESTEP *= 1.01
             else:
                 Planet.TIMESTEP *= 0.99
+                
+        if is_orbit == -1:
+            for planet in planets:
+                planet.orbit = []
                 
         pygame.display.update()
                 
