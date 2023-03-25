@@ -2,7 +2,7 @@ import pygame
 
 from planet import Planet
 
-from settings import AU, colors, FPS, HEIGHT, WIDTH
+from settings import WIDTH, HEIGHT, FPS, AU, colors
 
 pygame.init()
 window = pygame.display.set_mode((WIDTH, HEIGHT))

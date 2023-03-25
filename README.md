@@ -7,3 +7,4 @@ solar system interactive simulation
 - to restart planets: press SPACE
 - to make planets run faster: press RIGHT
 - to make planets run slowly: press LEFT
+- to scale animation: press UP or DOWN
